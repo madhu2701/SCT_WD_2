@@ -23,7 +23,8 @@ This project was developed as part of my **Web Development Internship task**.
 - JavaScript (DOM Manipulation, Timers)
 
 ## 📸 Preview
-> (Add a screenshot here later if you want)
+> <img width="1920" height="1000" alt="Screenshot (15)" src="https://github.com/user-attachments/assets/d50d0be4-15f4-4b9d-b919-bdf8336d7d11" />
+
 
 ## 📂 How to Run
 1. Download or clone this repository
