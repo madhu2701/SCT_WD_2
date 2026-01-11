@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Clock Stopwatch</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Inter:wght@400;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <main class="container">
+        <header>
+            <h1>Pro Stopwatch</h1>
+            <div class="status-indicator" id="statusText">Press Space to Start</div>
+        </header>
+
+        <div class="timer-wrapper">
+            <div class="clock-face" id="clockFace"></div>
+
+            <svg class="progress-ring" width="280" height="280">
+                <circle stroke="#1e293b" stroke-width="6" fill="transparent" r="128" cx="140" cy="140" />
+                <circle class="progress-ring__circle" id="progressCircle" stroke="#3b82f6" stroke-width="6"
+                    fill="transparent" r="128" cx="140" cy="140" />
+            </svg>
+
+            <div class="time-display" id="timeDisplay">
+                <span id="minutes">00</span>:<span id="seconds">00</span>.<span id="milliseconds" class="ms">000</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="startBtn" class="btn btn-start" data-tooltip="Start / Pause (Space)">Start</button>
+            <button id="pauseBtn" class="btn btn-pause hidden" data-tooltip="Start / Pause (Space)">Pause</button>
+            <button id="lapBtn" class="btn btn-lap" disabled data-tooltip="Lap (L)">Lap</button>
+            <button id="resetBtn" class="btn btn-reset" data-tooltip="Reset (R)">Reset</button>
+        </div>
+
+        <div id="lapsWrapper" class="laps-wrapper hidden">
+            <div class="laps-header">
+                <h3>Lap History</h3>
+                <button id="copyBtn" class="btn-mini">Copy</button>
+            </div>
+            <div class="laps-container">
+                <ul id="lapsList"></ul>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

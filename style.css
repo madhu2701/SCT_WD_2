@@ -1,0 +1,278 @@
+:root {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --accent-blue: #3b82f6;
+    --accent-yellow: #f59e0b;
+    --accent-green: #10b981;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: var(--card-bg);
+    width: 100%;
+    max-width: 440px; /* Slightly wider for the clock face */
+    padding: 2rem;
+    border-radius: 24px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+}
+
+/* --- Header --- */
+header h1 { margin: 0; font-size: 1.5rem; }
+.status-indicator {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 5px;
+    height: 1.2em;
+}
+
+/* --- Clock Timer Wrapper --- */
+.timer-wrapper {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin: 2rem auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* SVG Styles */
+.progress-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotate(-90deg);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.progress-ring__circle {
+    stroke-dasharray: 804; /* 2 * PI * 128 */
+    stroke-dashoffset: 804;
+    transition: stroke-dashoffset 0.1s linear;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 4px var(--accent-blue));
+}
+
+/* --- Clock Face Ticks --- */
+.clock-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.tick {
+    position: absolute;
+    background: #334155;
+    width: 2px;
+    height: 10px;
+    left: 50%;
+    top: 50%;
+    transform-origin: center;
+}
+
+/* Every 5th tick is larger (Major Tick) */
+.tick.major {
+    background: #64748b;
+    width: 3px;
+    height: 15px;
+}
+
+/* Digital Time Styling */
+.time-display {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 2.8rem;
+    font-weight: 700;
+    z-index: 3;
+    text-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+.ms { font-size: 1.4rem; color: var(--text-secondary); }
+.time-display.active { color: var(--accent-blue); }
+
+/* --- Controls --- */
+.controls { display: flex; justify-content: center; gap: 15px; margin-bottom: 0; }
+
+.btn {
+    padding: 14px 28px;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: transform 0.1s;
+}
+.btn:active { transform: scale(0.92); }
+.btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.btn-start { background: var(--accent-blue); color: white; box-shadow: 0 0 15px rgba(59,130,246,0.3); }
+.btn-pause { background: var(--accent-yellow); color: #0f172a; }
+.btn-reset { background: transparent; color: var(--text-secondary); border: 2px solid #334155; }
+.btn-lap { background: transparent; color: var(--accent-green); border: 2px solid var(--accent-green); }
+
+/* --- Lap History (Initially Hidden) --- */
+.laps-wrapper {
+    margin-top: 2rem;
+    border-top: 1px solid #334155;
+    padding-top: 1rem;
+    animation: fadeOpen 0.5s ease forwards;
+}
+
+/* Utility to hide elements completely */
+.hidden { display: none !important; }
+
+.laps-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.laps-header h3 { font-size: 0.9rem; color: var(--text-secondary); margin: 0; }
+
+.btn-mini {
+    background: #334155;
+    color: white; border: none; padding: 4px 12px;
+    border-radius: 4px; font-size: 0.75rem; cursor: pointer;
+}
+.btn-mini:hover { background: var(--accent-blue); }
+
+.laps-container {
+    height: 150px;
+    overflow-y: auto;
+}
+
+ul { list-style: none; padding: 0; margin: 0; }
+.lap-item {
+    display: flex; justify-content: space-between;
+    padding: 8px 12px; background: rgba(255,255,255,0.03);
+    margin-bottom: 6px; border-radius: 6px;
+    font-family: 'Roboto Mono', monospace; font-size: 0.9rem;
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.lap-number { color: var(--accent-blue); }
+
+@keyframes fadeOpen {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes popIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
+
+/* ... Previous CSS remains exactly the same ... */
+
+/* --- Lap History Updates --- */
+.lap-item {
+    display: flex; 
+    justify-content: space-between;
+    padding: 8px 12px; 
+    background: rgba(255,255,255,0.03);
+    margin-bottom: 6px; 
+    border-radius: 6px;
+    font-family: 'Roboto Mono', monospace; 
+    font-size: 0.9rem;
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.lap-number { 
+    color: var(--accent-blue); 
+    width: 40px; /* Fixed width for alignment */
+}
+
+/* NEW: Style for the split time (Difference) */
+.lap-diff {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+/* NEW: Style for total time to ensure right alignment */
+.lap-total {
+    color: var(--text-primary);
+    text-align: right;
+    width: 90px; /* Fixed width ensures numbers line up */
+}
+
+/* ... Existing CSS ... */
+
+/* --- Tooltip Styles (New) --- */
+
+/* Ensure button is the reference point for absolute positioning */
+.btn {
+    position: relative;
+}
+
+/* Tooltip Body (Hidden by default) */
+.btn[data-tooltip]::after {
+    content: attr(data-tooltip); /* Fetch text from HTML attribute */
+    position: absolute;
+    bottom: 125%; /* Position above the button */
+    left: 50%;
+    transform: translateX(-50%) translateY(5px); /* Start slightly lower for animation */
+    
+    /* Visual Styling */
+    background-color: var(--bg-color); /* Dark background matching theme */
+    color: var(--text-primary);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap; /* Prevent text wrapping */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    /* Visibility & Animation State */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* Let clicks pass through */
+    z-index: 100;
+    transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* Tooltip Visible State (On Hover) */
+.btn[data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0); /* Slide up into place */
+}
+
+/* Optional: Small Arrow pointing down */
+.btn[data-tooltip]::before {
+    content: '';
+    position: absolute;
+    bottom: 115%; /* Touch the bottom of the tooltip */
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--bg-color) transparent transparent transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    pointer-events: none;
+}
+
+.btn[data-tooltip]:hover::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
