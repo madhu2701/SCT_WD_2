@@ -1,4 +1,3 @@
-// --- Elements ---
 const timeDisplay = document.getElementById('timeDisplay');
 const minutesDisplay = document.getElementById('minutes');
 const secondsDisplay = document.getElementById('seconds');
@@ -14,20 +13,17 @@ const circle = document.getElementById('progressCircle');
 const copyBtn = document.getElementById('copyBtn');
 const clockFace = document.getElementById('clockFace');
 
-// --- Variables ---
 let startTime = 0;
 let elapsedTime = 0;
-let lastLapTime = 0; // NEW: Tracks the time when the previous lap was recorded
+let lastLapTime = 0; 
 let timerInterval;
 let lapCounter = 1;
 let isRunning = false;
 
-// Circle Config (Radius = 128) -> Circumference ≈ 804
 const circumference = 2 * Math.PI * 128;
 circle.style.strokeDasharray = circumference;
 circle.style.strokeDashoffset = circumference;
 
-// --- Initialize Clock Face ---
 function createClockFace() {
     for (let i = 0; i < 60; i++) {
         const tick = document.createElement('div');
@@ -43,7 +39,6 @@ function createClockFace() {
 }
 createClockFace();
 
-// --- Audio ---
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function playBeep(freq = 600, dur = 0.1) {
     if(audioCtx.state === 'suspended') audioCtx.resume();
@@ -57,7 +52,6 @@ function playBeep(freq = 600, dur = 0.1) {
     osc.stop(audioCtx.currentTime + dur);
 }
 
-// --- Logic ---
 function formatTime(time) {
     let date = new Date(time);
     let m = date.getUTCMinutes();
@@ -110,7 +104,7 @@ function resetTimer() {
     isRunning = false;
     clearInterval(timerInterval);
     elapsedTime = 0;
-    lastLapTime = 0; // NEW: Reset calculation base
+    lastLapTime = 0; 
     lapCounter = 1;
     updateDisplay();
     
@@ -132,17 +126,14 @@ function recordLap() {
         lapsWrapper.classList.remove('hidden');
     }
 
-    // 1. Calculate the difference (Current Total - Last Lap Total)
     const diff = elapsedTime - lastLapTime;
-    
-    // 2. Format both current total time and the difference
+   
     const formattedTotal = formatTime(elapsedTime);
     const formattedDiff = formatTime(diff);
 
     const li = document.createElement('li');
     li.classList.add('lap-item');
-    
-    // 3. Render HTML with Split Time (+MM:SS.ms) in the middle
+   
     li.innerHTML = `
         <span class="lap-number">#${String(lapCounter).padStart(2, '0')}</span> 
         <span class="lap-diff">+${formattedDiff.m}:${formattedDiff.s}.${formattedDiff.ms}</span>
@@ -150,13 +141,11 @@ function recordLap() {
     `;
     
     lapsList.prepend(li);
-    
-    // 4. Update state for next lap calculation
+   
     lastLapTime = elapsedTime;
     lapCounter++;
 }
 
-// --- Helpers ---
 function toggleControls(state) {
     if (state === 'running') {
         startBtn.classList.add('hidden');
@@ -179,7 +168,6 @@ function toggleControls(state) {
 }
 
 copyBtn.addEventListener('click', () => {
-    // NEW: Updated copy logic to include split time in clipboard text
     const laps = Array.from(document.querySelectorAll('.lap-item'))
         .map(item => {
             const num = item.querySelector('.lap-number').innerText;
@@ -202,4 +190,5 @@ document.addEventListener('keydown', (e) => {
     if (e.code === 'Space') { e.preventDefault(); isRunning ? pauseTimer() : startTimer(); }
     if (e.code === 'KeyL') recordLap();
     if (e.code === 'KeyR') resetTimer();
+
 });
