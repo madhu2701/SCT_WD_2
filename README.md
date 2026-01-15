@@ -23,7 +23,7 @@ This project was developed as part of my **Web Development Internship task**.
 - JavaScript (DOM Manipulation, Timers)
 
 ## 📸 Preview
-> https://moonlit-frangipane-4e7b1f.netlify.app/
+> https://task-02-stopwatch.netlify.app/
 
 
 ## 📂 How to Run
